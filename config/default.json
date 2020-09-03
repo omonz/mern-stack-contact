@@ -1,0 +1,3 @@
+{
+    "mongoURI" : "mongodb+srv://emmizy:Emmizy2013@node-react.ifdgb.mongodb.net/contactstore?retryWrites=true&w=majority"
+}
