@@ -1,3 +1,4 @@
 {
-    "mongoURI" : "mongodb+srv://emmizy:Emmizy2013@node-react.ifdgb.mongodb.net/contactstore?retryWrites=true&w=majority"
+    "mongoURI" : "mongodb+srv://emmizy:Emmizy2013@contact-store.6i0hl.mongodb.net/contact-store?retryWrites=true&w=majority",
+    "jwtSecret": "secret"
 }

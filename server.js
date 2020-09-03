@@ -6,6 +6,9 @@ const app = express();
 app.get('/', (req, res) => res.json({ msg: 'welcome to the contact api'}));
 connectDB();
 
+//init middleware
+app.use(express.json({ extended: false }))
+
 //define the routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/contact', require('./routes/contacts'));
