@@ -49,12 +49,64 @@ router.post('/', [auth, [
         }
 });
 
-router.put('/:id', (req, res) => {
-    res.send('update contact');
+// @route    PUT api/contacts/:id
+// @desc     Update a contact
+// @access   Private
+router.put('/:id', auth, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name, email, phone, type } = req.body;
+    //build contact object
+    const contactFields = {};
+    if(name) contactFields.name = name;
+    if(email) contactFields.email = email;
+    if(phone) contactFields.phone = phone;
+    if(type) contactFields.type = type;
+
+    try {
+        let contact = await Contact.findById(req.params.id);
+
+        if(!contact) return res.status(400).json({msg: 'Contact not found'});
+
+        if(contact.user.toString() !== req.user.id)
+            return res.status(400).json({msg: 'Unauthozired user'});
+
+        //update the existing contact
+        contact = await Contact.findByIdAndUpdate(
+            req.params.id, 
+            { $set: contactFields},
+            {new :true }
+        );
+
+        res.json(contact);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
-router.delete('/:id', (req, res) => {
-    res.send('delete a contact');
-});
+// @route    DELETE api/contacts/:id
+// @desc     Delete a contact
+// @access   Private
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        const contact = await Contact.findById(req.params.id);
 
+        if(!contact) return res.status(400).json({msg : 'Contact not found'});
+
+        if(contact.user.toString() !== req.user.id)
+            return res.status(401).json({msg: 'Unauthorized access denied'});
+        
+        await Contact.findByIdAndRemove(req.params.id);
+        
+        res.json({ msg: 'Contact Removed'});
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+ 
 module.exports = router;
