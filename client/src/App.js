@@ -9,7 +9,7 @@ import AlertState from './context/alert/AlertState';
 import AuthState from './context/auth/AuthState';
 import Register from './components/pages/Register';
 import Login from './components/pages/Login';
-import Alert from './components/layouts/alert/Alert';
+import Alert from './components/layouts/Alert';
 
 const App = () => {
   return (

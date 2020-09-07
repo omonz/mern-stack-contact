@@ -20,11 +20,11 @@ const Register = () => {
     const onSubmit = e => {
         e.preventDefault();
         if(name === '' || email === '' || password === '' || password2 === ''){
-             console.log("creating user account");
             setAlert('Please all field required', 'danger');
         }else if(password !== password2){
             setAlert('Password does not match', 'danger');
         }else{
+          alert('create user account');
             console.log('creating user account');
         }
     }
@@ -40,6 +40,7 @@ const Register = () => {
           <input
             type="text"
             name="name"
+            required
             value={name}
             onChange={onChange}
             placeholder="Enter your name"
@@ -50,6 +51,7 @@ const Register = () => {
           <input
             type="email"
             name="email"
+            required
             value={email}
             onChange={onChange}
             placeholder="Enter your email"
@@ -60,6 +62,8 @@ const Register = () => {
           <input
             type="password"
             name="password"
+            minLength='6'
+            required
             value={password}
             onChange={onChange}
             placeholder="Enter your password"
@@ -69,10 +73,12 @@ const Register = () => {
           <label htmlFor="name">Confirm Password</label>
           <input
             type="password"
+            required
             name="password2"
             value={password2}
             onChange={onChange}
             placeholder="Confirm password"
+            minLength='6'
           />
         </div>
         <div className="form-group">
