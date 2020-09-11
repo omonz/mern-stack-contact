@@ -1,10 +1,22 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AlertContext from './../../context/alert/alertContext';
+import AuthContext from './../../context/auth/authContext';
 
-const Register = () => {
+const Register = props => {
 
     const alertContext = useContext(AlertContext);
+    const authContext = useContext(AuthContext);
+
     const { setAlert } = alertContext;
+    const { register, error, clearErrors } = authContext;
+
+    useEffect(() => {
+    if(error === 'User already exist'){
+      setAlert(error, 'danger');
+
+      clearErrors();
+    }
+  }, [error, clearErrors, setAlert]);
 
     const [user, setUser] = useState({
         name: '',
@@ -24,8 +36,11 @@ const Register = () => {
         }else if(password !== password2){
             setAlert('Password does not match', 'danger');
         }else{
-          alert('create user account');
-            console.log('creating user account');
+         register({
+           name,
+           email, 
+           password
+          });
         }
     }
 
@@ -40,7 +55,7 @@ const Register = () => {
           <input
             type="text"
             name="name"
-            required
+           
             value={name}
             onChange={onChange}
             placeholder="Enter your name"
@@ -51,7 +66,7 @@ const Register = () => {
           <input
             type="email"
             name="email"
-            required
+           
             value={email}
             onChange={onChange}
             placeholder="Enter your email"
@@ -63,7 +78,7 @@ const Register = () => {
             type="password"
             name="password"
             minLength='6'
-            required
+           
             value={password}
             onChange={onChange}
             placeholder="Enter your password"
@@ -73,7 +88,7 @@ const Register = () => {
           <label htmlFor="name">Confirm Password</label>
           <input
             type="password"
-            required
+           
             name="password2"
             value={password2}
             onChange={onChange}

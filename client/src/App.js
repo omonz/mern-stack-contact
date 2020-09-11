@@ -11,7 +11,7 @@ import Register from './components/pages/Register';
 import Login from './components/pages/Login';
 import Alert from './components/layouts/Alert';
 
-const App = () => {
+const App = () => { 
   return (
     <AuthState>
       <ContactState>

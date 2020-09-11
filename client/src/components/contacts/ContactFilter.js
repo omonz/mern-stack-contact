@@ -20,7 +20,7 @@ const ContactFilter = () => {
         if(filtered === null){
             text.current.value = '';
         }
-    },[]);
+    },[filtered]);
 
     return (
         <div>
