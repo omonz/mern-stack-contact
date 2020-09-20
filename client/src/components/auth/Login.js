@@ -1,6 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import AlertContext from "./../../context/alert/alertContext";
+import AuthContext from "./../../context/auth/authContext";
 
-const Login = () => {
+const Login = props => {
+
+  
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+
+  const { setAlert } = alertContext;
+  const { login, error, clearErrors, isAuthenticated } = authContext;
+
+  useEffect(() => {
+    //redirect to homepage when authenticated
+    if (isAuthenticated) {
+      props.history.push("/");
+    }
+
+    if (error === "user not found") {
+      setAlert(error, "danger");
+
+      clearErrors();
+    }
+    //eslint-disable-next-line
+  }, [error, clearErrors, setAlert]);
+
   const [user, setUser] = useState({
     email: "",
     password: ""
@@ -12,7 +36,14 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("Log User In");
+    if(email === '' || password === ''){
+      setAlert('Please all fields are required', 'danger')
+    }else{
+      login({
+        email,
+        password
+      });
+    }
   };
 
   return (

@@ -2,12 +2,12 @@ import React, { useReducer } from 'react';
 import { v4 as uuid } from "uuid"; 
 import ContactContext from './contactContext';
 import contactReducer from './contactReducer';
-import { ADD_CONTACT, DELETE_CONTACT, SET_CURRENT, CLEAR_CURRENT, UPDATE_CONTACT, FILTER_CONTACT, CLEAR_FILTER } from './../types';
+import { ADD_CONTACT, DELETE_CONTACT, SET_CURRENT, CLEAR_CURRENT, UPDATE_CONTACT, FILTER_CONTACT, CLEAR_FILTER, CLEAR_ERRORS } from './../types';
 
 const ContactState = props => {
     const initialState = {
         contacts : [
-            {
+            { 
                 id: 1,
                 name: "Jill Johnson",
                 email: "jilljohnson@gmail.com",
