@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 const router = express.Router()
 const User = require('./../model/User');
 const config = require('config');
-
+ 
+//register a new user
 router.post('/', [
     check('name', 'Please add name').not().isEmpty(),
     check('email', 'enter a valid email').isEmail(),
@@ -13,13 +14,13 @@ router.post('/', [
 ], async (req, res) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-        return res.status(400).json({errors: errors.array()});
+        return res.status(400).json({ errors: errors.array() });
     }
     
     //Destructure the request param
     const {name, email, password } = req.body;
     try {
-        //check if user exist with that email
+        //check if user exist with that email  
         let user = await User.findOne({ email });
         if (user) {
           return res.status(400).json({ msg: "user already exist" });

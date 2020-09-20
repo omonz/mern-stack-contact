@@ -8,15 +8,21 @@ const Register = props => {
     const authContext = useContext(AuthContext);
 
     const { setAlert } = alertContext;
-    const { register, error, clearErrors } = authContext;
-
+    const { register, error, clearErrors, isAuthenticated } = authContext;
+ 
     useEffect(() => {
-    if(error === 'User already exist'){
-      setAlert(error, 'danger');
+      //redirect to homepage when authenticated
+      if(isAuthenticated){
+        props.history.push('/');
+      }
 
-      clearErrors();
-    }
-  }, [error, clearErrors, setAlert]);
+      if(error === 'User already exist'){
+        setAlert(error, 'danger');
+
+        clearErrors();
+      }
+      //eslint-disable-next-line
+    }, [error, clearErrors, setAlert]);
 
     const [user, setUser] = useState({
         name: '',
@@ -24,10 +30,10 @@ const Register = props => {
         password: '',
         password2: ''
     });
+    const onChange = e => setUser({...user, [e.target.name]: e.target.value});
 
     const {name, email, password, password2 } = user;
 
-    const onChange = e => setUser({...user, [e.target.name]: e.target.value});
 
     const onSubmit = e => {
         e.preventDefault();
@@ -86,7 +92,7 @@ const Register = props => {
         </div>
         <div className="form-group">
           <label htmlFor="name">Confirm Password</label>
-          <input
+          <input 
             type="password"
            
             name="password2"
